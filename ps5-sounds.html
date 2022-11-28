@@ -1,0 +1,157 @@
+
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.5/addons/p5.dom.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/IDMNYU/p5.js-speech@0.0.3/lib/p5.speech.js"></script>
+<script>
+    // ==== Option 1: Click to read array of words
+    var myVoice = new p5.Speech(); // new P5.Speech object
+    
+    var menuLoaded = 0;
+    var label, textbox, checkbox, speakbutton, vslider, rslider, pslider; // UI
+        
+    var words = ["What", "a", "wonderful", "world"]; // some words
+        var iptr = 0; // a counter for the words
+    
+        var listbutton; // button
+    
+        function setup()
+        {   
+            // Opt 1: get text via inputbox
+            // input dialog:
+            textbox = createInput("testing this");
+            textbox.style("width", 400);
+          textbox.position(20, 65);
+        textbox.changed(toSpeak);
+        
+    
+            // checkbox:
+            checkbox = createInput(0, 1, 0);
+            checkbox.attribute("type", "checkbox");
+            checkbox.style("width", "15px");
+            checkbox.style("height", "15px");
+          checkbox.position(100, 100);
+            // button:
+            //speakbutton = createButton('Speak');
+              //speakbutton.position(20, 100);
+              //speakbutton.mousePressed(toSpeak);
+              // sliders:
+              vslider = createSlider(0., 100., 100.);
+              vslider.position(20, 140);
+              vslider.mouseReleased(setVolume);
+              rslider = createSlider(10., 200., 100.);
+              rslider.position(20, 160);
+              rslider.mouseReleased(setRate);
+              pslider = createSlider(1., 200., 100.);
+              pslider.position(20, 180);
+              pslider.mouseReleased(setPitch);
+            // labels:
+            label = createDiv("What should be said:");
+            label.position(20, 40);
+            label = createDiv("interrupt?");
+            label.position(125, 100);
+            label = createDiv("volume");
+            label.position(160, 140);
+            label = createDiv("rate");
+            label.position(160, 160);
+            label = createDiv("pitch");
+            label.position(160, 180);
+    
+              // What to say onload:
+        myVoice.speak('When you are ready, change the words in the text box and hit enter');
+            // Opt2: State predefined text when the image is clicked and circles are formed
+            // Draw image on page
+            // graphics :
+            createCanvas(400, 400);
+            background(255, 0, 0);
+            fill(255, 255, 255, 100);
+            // instructions:
+            textSize(72);
+            textAlign(CENTER);
+            text("or click here", width/2, height/2);
+            // button:
+            listbutton = createButton('List Voices');
+              listbutton.position(180, 430);
+              listbutton.mousePressed(doList);
+    
+        }
+      
+      
+        function setVolume()
+        {
+            myVoice.setVolume(vslider.value()/100.);
+        }
+        function setRate()
+        {
+            myVoice.setRate(rslider.value()/100.);
+        }
+        function setPitch()
+        {
+            myVoice.setPitch(pslider.value()/100.);
+        }
+    
+        function draw()
+        {
+            // why draw when you can click?
+        }
+    
+        function toSpeak()
+        {
+        //myVoice.listVoices(); // debug printer for voice options
+            //myVoice.interrupt = checkbox.elt.checked;
+            myVoice.speak(textbox.value()); // debug printer for voice options
+        }
+      
+    
+        function draw()
+        {
+            // why draw when you can click?
+        }
+    
+        function doList()
+        {
+            myVoice.listVoices(); // debug printer for voice options
+        }
+    
+        function keyPressed()
+        {
+            background(255, 0, 0); // clear screen
+        }
+    
+        function mousePressed()
+        {
+            // Where to place the circle on the image and then select a wordpart from the array
+            // if in bounds:
+            if(mouseX<width && mouseY<height) {
+                ellipse(mouseX, mouseY, 50, 50); // circle
+                // randomize voice and speak word:
+                myVoice.setVoice(Math.floor(random(myVoice.voices.length)));
+                myVoice.speak(words[iptr]);
+                iptr = (iptr+1) % words.length; // increment
+            }
+        }
+      
+    
+    //====== Option 3
+    //===  Listen to the Mic and repeat as text in the Console (also in Edge)
+    var foo = new p5.SpeechRec(); // speech recognition object (will prompt for mic access)
+    foo.onResult = showResult; // bind callback function to trigger when speech is recognized
+    foo.start(); // start listening
+    
+    function showResult()
+    {
+      console.log(foo.resultString); // log the result
+    }
+
+</script>
+</head>
+<body>
+    <main>
+        Also on my JS fiddle (https://jsfiddle.net/tripwireza/6fzmya5k/)
+        <script async src="//jsfiddle.net/tripwireza/6fzmya5k/embed/"></script>
+      </main>
+</body>
+</html>
+
