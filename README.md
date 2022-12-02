@@ -8,3 +8,6 @@ Examples of what is inside this Repository:
 3. Image recognition with ML5(Computer vision/Machine Learning) https://jsfiddle.net/tripwireza/s8pegw57/
 4. Dynamic Image recognition from webcam video with ML5(Computer vision/Machine Learning) https://jsfiddle.net/tripwireza/8nsz3a2h/
 5. Dynamic Multiple Object recognition from webcam video with ML5(Computer vision/Machine Learning)https://jsfiddle.net/tripwireza/tfmb94w2/
+
+Example: 
+![Alt text](cvsample.png "Dynamic Multiple Object recognition from webcam")
